@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <title>choose cat</title>
+  <style>
+    html,body {
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+    .main {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .question {
+      width: 500px;
+      height: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .choose {
+      width: 500px;
+      height: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+    <h1 class="level">Level: 1</h1>
+    <div class="question">
+      <img src="imgs/cat-1.png" alt="">
+    </div>
+    <div class="choose">
+      <img src="imgs/cat-10.png" alt="">
+    </div>
+    <h1>Click when cats matched</h1>
+  </div>
+
+  <script>
+    const question = document.querySelector('.question img')
+    const choose = document.querySelector('.choose img')
+
+    const data = [
+      "imgs/cat-1.png",
+      "imgs/cat-2.png",
+      "imgs/cat-3.png",
+      "imgs/cat-4.png",
+      "imgs/cat-5.png",
+      "imgs/cat-6.png",
+      "imgs/cat-7.png",
+      "imgs/cat-8.png",
+      // "imgs/cat-9.png",
+      // "imgs/cat-10.png",
+      // "imgs/cat-11.png",
+      // "imgs/cat-12.png",
+      // "imgs/cat-13.png",
+      // "imgs/cat-14.png",
+      // "imgs/cat-15.png",
+      // "imgs/cat-16.png",
+      // "imgs/cat-17.png"
+    ]
+
+    let level = 1
+    // let speed = 1000 / level
+    let currentIndex = random([0,data.length])
+
+    const currentQuestion = data[currentIndex]
+    question.src = currentQuestion
+
+    let timer = null
+
+    timer = setInterval(run, 1100 / level)
+
+    function run(){
+      currentIndex ++
+      currentIndex %= data.length
+      const currentCat = data[currentIndex]
+      choose.src = currentCat
+
+
+      console.log( currentCat, currentQuestion )
+      window.onclick = ()=>{
+        if(currentCat === currentQuestion){
+          alert('Succeed!')
+          level ++
+          clearInterval(timer)
+          if(level===10) return alert('你通关啦！')
+          timer = setInterval(run, 1100 - level*100)
+        }else {
+          alert('Failed, please try again.')
+          level = 1
+          clearInterval(timer)
+          timer = setInterval(run, 1100 - level*100)
+        }
+        document.querySelector('.level').innerHTML = `Level: ${level}`
+      }
+    }
+
+    function random([a,b]){
+      return Math.ceil(Math.random()*(a+b) - a) - 1
+    }
+
+  </script>
+</body>
+</html>
