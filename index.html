@@ -52,7 +52,7 @@
     const question = document.querySelector('.question img')
     const choose = document.querySelector('.choose img')
 
-    const data = [
+    let data = [
       "imgs/cat-1.png",
       "imgs/cat-2.png",
       "imgs/cat-3.png",
@@ -93,10 +93,11 @@
       console.log( currentCat, currentQuestion )
       window.onclick = ()=>{
         if(currentCat === currentQuestion){
+          data = data.sort(()=>.5-Math.random())
           alert('Succeed!')
           level ++
           clearInterval(timer)
-          if(level===10) return alert('你通关啦！')
+          if(level===10) return alert('Levels Cleared 🐈')
           timer = setInterval(run, 1100 - level*100)
         }else {
           alert('Failed, please try again.')
